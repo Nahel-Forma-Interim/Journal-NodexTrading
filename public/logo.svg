@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#5B6EF5"/>
+  <g fill="#121240" stroke="#121240" stroke-linejoin="round" stroke-linecap="round">
+    <!-- N shape as rising chart with arrow -->
+    <path d="M110 390 L110 200 L190 310 L190 130" stroke-width="58" fill="none"/>
+    <!-- Arrow head -->
+    <path d="M340 130 L390 80 L400 70" stroke-width="58" fill="none"/>
+    <polygon points="420,50 430,130 350,120" fill="#121240" stroke="none"/>
+    <!-- Connect middle to arrow -->
+    <path d="M190 130 L350 130" stroke-width="0" fill="none"/>
+    <path d="M175 145 L190 130 L380 100" stroke-width="58" fill="none"/>
+  </g>
+</svg>
