@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   Settings,
+  CalendarDays,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,6 +25,7 @@ const navItems = [
   { label: "PRINCIPAL", items: [] },
   { href: "/dashboard", label: "Aperçu", icon: LayoutDashboard },
   { href: "/journal", label: "Journal", icon: BookOpen },
+  { href: "/calendar", label: "Calendrier", icon: CalendarDays },
   { href: "/calculator", label: "Calculatrice Spot", icon: Calculator },
   { label: "ANALYSE", items: [] },
   { href: "/stats", label: "Statistiques", icon: BarChart3 },
