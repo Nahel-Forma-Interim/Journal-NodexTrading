@@ -10,11 +10,11 @@ import {
 } from "recharts";
 
 const neonTooltip = {
-  backgroundColor: "rgba(6, 8, 15, 0.95)",
-  border: "1px solid rgba(0, 230, 118, 0.3)",
+  backgroundColor: "rgba(3, 16, 33, 0.95)",
+  border: "1px solid rgba(255, 255, 255, 0.15)",
   borderRadius: "14px",
-  color: "#00e676",
-  boxShadow: "0 0 20px rgba(0, 230, 118, 0.15)",
+  color: "#ffffff",
+  boxShadow: "0 0 20px rgba(0, 0, 0, 0.4)",
   padding: "10px 14px",
   fontSize: "12px",
 };
@@ -108,17 +108,17 @@ export default function DashboardPage() {
               <BarChart data={dailyPnL} barCategoryGap="20%">
                 <defs>
                   <linearGradient id="greenBar" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00e676" stopOpacity={0.9} />
-                    <stop offset="100%" stopColor="#00e676" stopOpacity={0.4} />
+                    <stop offset="0%" stopColor="#4ade80" stopOpacity={0.9} />
+                    <stop offset="100%" stopColor="#4ade80" stopOpacity={0.4} />
                   </linearGradient>
                   <linearGradient id="redBar" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ff3b5c" stopOpacity={0.9} />
-                    <stop offset="100%" stopColor="#ff3b5c" stopOpacity={0.4} />
+                    <stop offset="0%" stopColor="#f87171" stopOpacity={0.9} />
+                    <stop offset="100%" stopColor="#f87171" stopOpacity={0.4} />
                   </linearGradient>
-                  <filter id="glowGreen"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#00e676" floodOpacity="0.4"/></filter>
-                  <filter id="glowRed"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#ff3b5c" floodOpacity="0.4"/></filter>
+                  <filter id="glowGreen"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#4ade80" floodOpacity="0.4"/></filter>
+                  <filter id="glowRed"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#f87171" floodOpacity="0.4"/></filter>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                 <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
                 <YAxis stroke="#64748b" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={neonTooltip} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
@@ -178,17 +178,17 @@ export default function DashboardPage() {
             <AreaChart data={stats.equityCurve}>
               <defs>
                 <linearGradient id="equityGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#00e676" stopOpacity={0.25} />
-                  <stop offset="100%" stopColor="#00e676" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#4ade80" stopOpacity={0.25} />
+                  <stop offset="100%" stopColor="#4ade80" stopOpacity={0} />
                 </linearGradient>
-                <filter id="glowLine"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#00e676" floodOpacity="0.5"/></filter>
+                <filter id="glowLine"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#4ade80" floodOpacity="0.5"/></filter>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
               <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 9 }} axisLine={false} tickLine={false} />
               <YAxis stroke="#64748b" tick={{ fontSize: 9 }} axisLine={false} tickLine={false}
                 tickFormatter={(v) => v >= 1000 ? `${(v/1000).toFixed(1)}k` : v} />
               <Tooltip contentStyle={neonTooltip} />
-              <Area type="monotone" dataKey="equity" stroke="#00e676" strokeWidth={2.5}
+              <Area type="monotone" dataKey="equity" stroke="#4ade80" strokeWidth={2.5}
                 fill="url(#equityGrad)" filter="url(#glowLine)" />
             </AreaChart>
           </ResponsiveContainer>

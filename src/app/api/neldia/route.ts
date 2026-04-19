@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import Groq from "groq-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
-const SYSTEM_PROMPT = `Tu es Nahel IA, l'assistant trading de Nahel Trading. Tu es spécialisé dans le trading SPOT de crypto-monnaies avec la méthodologie Smart Money Concepts (SMC) et ICT.
+const SYSTEM_PROMPT = `Tu es Nahel IA, l'assistant trading de Nodex Trading. Tu es spécialisé dans le trading SPOT de crypto-monnaies avec la méthodologie Smart Money Concepts (SMC) et ICT.
 
 Profil du trader : Nahel trade en spot sur Binance, principalement des altcoins (TAOUSDT, etc.) avec un capital d'environ 2300$. Il rentre à 100% de son capital sur chaque trade. Il cherche 2-3% par trade. Son processus : analyse Daily → H4 → H1 → 15min pour l'entrée. Il entre sur des BISI, Order Blocks, Breaker Blocks, sous les 0.5 de Fibonacci.
 

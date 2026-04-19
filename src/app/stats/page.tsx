@@ -10,11 +10,11 @@ import {
 } from "recharts";
 
 const neonTooltip = {
-  backgroundColor: "rgba(6, 8, 15, 0.95)",
-  border: "1px solid rgba(0, 230, 118, 0.3)",
+  backgroundColor: "rgba(3, 16, 33, 0.95)",
+  border: "1px solid rgba(255, 255, 255, 0.15)",
   borderRadius: "14px",
-  color: "#00e676",
-  boxShadow: "0 0 20px rgba(0, 230, 118, 0.15)",
+  color: "#ffffff",
+  boxShadow: "0 0 20px rgba(0, 0, 0, 0.4)",
   padding: "12px 16px",
   fontSize: "13px",
 };
@@ -35,8 +35,8 @@ export default function StatsPage() {
   }));
 
   const winLossData = [
-    { name: "Gains", value: stats.wins, color: "#00e676" },
-    { name: "Pertes", value: stats.losses, color: "#ff3b5c" },
+    { name: "Gains", value: stats.wins, color: "#4ade80" },
+    { name: "Pertes", value: stats.losses, color: "#f87171" },
   ];
 
   const dailyMap = new Map<string, number>();
@@ -135,17 +135,17 @@ export default function StatsPage() {
                 <AreaChart data={stats.equityCurve}>
                   <defs>
                     <linearGradient id="eqG" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00e676" stopOpacity={0.2} />
-                      <stop offset="100%" stopColor="#00e676" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#4ade80" stopOpacity={0.2} />
+                      <stop offset="100%" stopColor="#4ade80" stopOpacity={0} />
                     </linearGradient>
-                    <filter id="gl"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#00e676" floodOpacity="0.5"/></filter>
+                    <filter id="gl"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#4ade80" floodOpacity="0.5"/></filter>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                   <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false}
                     tickFormatter={(v) => v >= 1000 ? `${(v/1000).toFixed(1)}k` : v} />
                   <Tooltip contentStyle={neonTooltip} />
-                  <Area type="monotone" dataKey="equity" stroke="#00e676" strokeWidth={2.5} fill="url(#eqG)" filter="url(#gl)" />
+                  <Area type="monotone" dataKey="equity" stroke="#4ade80" strokeWidth={2.5} fill="url(#eqG)" filter="url(#gl)" />
                 </AreaChart>
               </ResponsiveContainer>
             </motion.div>
@@ -158,8 +158,8 @@ export default function StatsPage() {
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                   <defs>
-                    <filter id="pgG"><feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#00e676" floodOpacity="0.4"/></filter>
-                    <filter id="pgR"><feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#ff3b5c" floodOpacity="0.4"/></filter>
+                    <filter id="pgG"><feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#4ade80" floodOpacity="0.4"/></filter>
+                    <filter id="pgR"><feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#f87171" floodOpacity="0.4"/></filter>
                   </defs>
                   <Pie data={winLossData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} dataKey="value"
                     stroke="none" label={{ fontSize: 12, fill: "#e2e8f0" }}>
@@ -183,17 +183,17 @@ export default function StatsPage() {
                   <AreaChart data={stats.capitalHistory}>
                     <defs>
                       <linearGradient id="gpG" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#5B6EF5" stopOpacity={0.25} />
-                        <stop offset="100%" stopColor="#5B6EF5" stopOpacity={0} />
+                        <stop offset="0%" stopColor="#ffffff" stopOpacity={0.25} />
+                        <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
                       </linearGradient>
-                      <filter id="glB"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#5B6EF5" floodOpacity="0.5"/></filter>
+                      <filter id="glB"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#ffffff" floodOpacity="0.5"/></filter>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                     <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                     <YAxis stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false}
                       tickFormatter={(v) => `${v}%`} />
-                    <Tooltip contentStyle={{...neonTooltip, border: "1px solid rgba(91,110,245,0.3)", color: "#7B8AF7"}} />
-                    <Area type="monotone" dataKey="growthPct" stroke="#5B6EF5" strokeWidth={2.5} fill="url(#gpG)" filter="url(#glB)"
+                    <Tooltip contentStyle={{...neonTooltip, border: "1px solid rgba(255,255,255,0.2)", color: "#ffffff"}} />
+                    <Area type="monotone" dataKey="growthPct" stroke="#ffffff" strokeWidth={2.5} fill="url(#gpG)" filter="url(#glB)"
                       name="Croissance %" />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -209,15 +209,15 @@ export default function StatsPage() {
                 <BarChart data={pairData} barCategoryGap="25%">
                   <defs>
                     <linearGradient id="gB2" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00e676" stopOpacity={0.9} /><stop offset="100%" stopColor="#00e676" stopOpacity={0.3} />
+                      <stop offset="0%" stopColor="#4ade80" stopOpacity={0.9} /><stop offset="100%" stopColor="#4ade80" stopOpacity={0.3} />
                     </linearGradient>
                     <linearGradient id="rB2" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#ff3b5c" stopOpacity={0.9} /><stop offset="100%" stopColor="#ff3b5c" stopOpacity={0.3} />
+                      <stop offset="0%" stopColor="#f87171" stopOpacity={0.9} /><stop offset="100%" stopColor="#f87171" stopOpacity={0.3} />
                     </linearGradient>
-                    <filter id="gBg"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#00e676" floodOpacity="0.4"/></filter>
-                    <filter id="rBg"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#ff3b5c" floodOpacity="0.4"/></filter>
+                    <filter id="gBg"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#4ade80" floodOpacity="0.4"/></filter>
+                    <filter id="rBg"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#f87171" floodOpacity="0.4"/></filter>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                   <XAxis dataKey="pair" stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={neonTooltip} />
@@ -239,7 +239,7 @@ export default function StatsPage() {
               <p className="text-xs text-text-muted mb-4">Résultat quotidien</p>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={dailyData} barCategoryGap="15%">
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                   <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={neonTooltip} />

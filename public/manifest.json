@@ -1,28 +1,23 @@
 {
-  "name": "Nahel Trading",
-  "short_name": "Nahel Trading",
+  "name": "Nodex Trading",
+  "short_name": "Nodex Trading",
   "description": "Application de trading spot crypto",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#0a0b1a",
-  "theme_color": "#5B6EF5",
+  "background_color": "#030818",
+  "theme_color": "#030818",
   "orientation": "any",
   "icons": [
     {
-      "src": "/logo.svg",
+      "src": "/logo-nodex.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/logo-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/logo-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
     }
   ]
 }

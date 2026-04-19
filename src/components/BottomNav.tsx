@@ -94,7 +94,7 @@ export default function BottomNav() {
       <div
         className="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around px-2"
         style={{
-          background: "rgba(6, 8, 15, 0.92)",
+          background: "rgba(3, 16, 33, 0.92)",
           backdropFilter: "blur(24px) saturate(160%)",
           borderTop: "1px solid rgba(255,255,255,0.06)",
           paddingBottom: "env(safe-area-inset-bottom, 12px)",

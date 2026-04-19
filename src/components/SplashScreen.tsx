@@ -31,7 +31,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(91,110,245,0.3) 0%, transparent 70%)" }}
+              style={{ background: "radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%)" }}
             />
             <motion.div
               animate={{
@@ -40,7 +40,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(91,110,245,0.2) 0%, transparent 70%)" }}
+              style={{ background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)" }}
             />
           </div>
 
@@ -73,32 +73,33 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
             className="relative z-10"
           >
             <motion.img
-              src="/logo.png"
-              alt="Nahel Trading"
+              src="/logo-nodex.png"
+              alt="Nodex Trading"
               className="w-28 h-28 rounded-3xl"
               animate={phase >= 1 ? {
                 y: [0, -8, 0],
                 filter: [
-                  "drop-shadow(0 0 20px rgba(91,110,245,0.3))",
-                  "drop-shadow(0 0 40px rgba(91,110,245,0.6))",
-                  "drop-shadow(0 0 20px rgba(91,110,245,0.3))",
+                  "drop-shadow(0 0 24px rgba(255,255,255,0.25))",
+                  "drop-shadow(0 0 48px rgba(255,255,255,0.5))",
+                  "drop-shadow(0 0 24px rgba(255,255,255,0.25))",
                 ],
               } : {}}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
 
-          {/* App name */}
+          {/* Nom de l'app */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: phase >= 1 ? 1 : 0, y: phase >= 1 ? 0 : 30 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="relative z-10 mt-8 text-5xl font-bold bg-gradient-to-r from-primary via-primary-light to-[#a78bfa] bg-clip-text text-transparent"
+            className="relative z-10 mt-8 text-5xl font-bold text-white"
+            style={{ textShadow: "0 0 24px rgba(255,255,255,0.35)" }}
           >
-            Nahel Trading
+            Nodex Trading
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Sous-titre */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: phase >= 2 ? 1 : 0, y: phase >= 2 ? 0 : 20 }}

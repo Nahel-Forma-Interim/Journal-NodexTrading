@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nahel Trading",
+  title: "Nodex Trading",
   description: "Application de trading spot crypto",
 };
 
@@ -25,11 +25,12 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#5B6EF5" />
+        <meta name="theme-color" content="#030818" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <link rel="apple-touch-icon" href="/logo.svg" />
+        <link rel="apple-touch-icon" href="/logo-nodex.png" />
       </head>
       <body className="min-h-screen bg-background text-foreground">{children}</body>
     </html>

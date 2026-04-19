@@ -81,20 +81,20 @@ function simulate(
 }
 
 const neonTooltip = {
-  backgroundColor: "rgba(6, 8, 15, 0.95)",
-  border: "1px solid rgba(0, 230, 118, 0.3)",
+  backgroundColor: "rgba(3, 16, 33, 0.95)",
+  border: "1px solid rgba(255, 255, 255, 0.15)",
   borderRadius: "14px",
-  color: "#00e676",
-  boxShadow: "0 0 20px rgba(0, 230, 118, 0.15)",
+  color: "#ffffff",
+  boxShadow: "0 0 20px rgba(0, 0, 0, 0.4)",
   padding: "12px 16px",
   fontSize: "13px",
 };
 
 const redTooltip = {
   ...neonTooltip,
-  border: "1px solid rgba(255, 59, 92, 0.3)",
-  color: "#ff3b5c",
-  boxShadow: "0 0 20px rgba(255, 59, 92, 0.15)",
+  border: "1px solid rgba(255, 255, 255, 0.15)",
+  color: "#ffffff",
+  boxShadow: "0 0 20px rgba(0, 0, 0, 0.4)",
 };
 
 export default function SimulatorPage() {
@@ -164,7 +164,7 @@ export default function SimulatorPage() {
               Win Rate: <span className="text-accent-green font-bold">{winRate}%</span>
             </label>
             <input type="range" min="30" max="80" step="1" value={winRate}
-              onChange={(e) => setWinRate(parseInt(e.target.value))} className="w-full accent-[#00e676]" />
+              onChange={(e) => setWinRate(parseInt(e.target.value))} className="w-full accent-[#4ade80]" />
           </div>
 
           <div>
@@ -172,7 +172,7 @@ export default function SimulatorPage() {
               R:R moyen: <span className="text-accent-yellow font-bold">1:{avgRR}</span>
             </label>
             <input type="range" min="1" max="5" step="0.5" value={avgRR}
-              onChange={(e) => setAvgRR(parseFloat(e.target.value))} className="w-full accent-[#ffd600]" />
+              onChange={(e) => setAvgRR(parseFloat(e.target.value))} className="w-full accent-[#fbbf24]" />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -249,17 +249,17 @@ export default function SimulatorPage() {
               <AreaChart data={data}>
                 <defs>
                   <linearGradient id="simEq" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00e676" stopOpacity={0.25} />
-                    <stop offset="100%" stopColor="#00e676" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#4ade80" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#4ade80" stopOpacity={0} />
                   </linearGradient>
-                  <filter id="simGl"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#00e676" floodOpacity="0.5"/></filter>
+                  <filter id="simGl"><feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#4ade80" floodOpacity="0.5"/></filter>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                 <XAxis dataKey="label" stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false}
                   tickFormatter={(v) => v >= 1000 ? `${(v/1000).toFixed(1)}k` : v} />
                 <Tooltip contentStyle={neonTooltip} />
-                <Area type="monotone" dataKey="equity" stroke="#00e676" strokeWidth={2.5}
+                <Area type="monotone" dataKey="equity" stroke="#4ade80" strokeWidth={2.5}
                   fill="url(#simEq)" filter="url(#simGl)" />
               </AreaChart>
             </ResponsiveContainer>
@@ -274,16 +274,16 @@ export default function SimulatorPage() {
               <AreaChart data={data}>
                 <defs>
                   <linearGradient id="ddG" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ff3b5c" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#ff3b5c" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="#f87171" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#f87171" stopOpacity={0.02} />
                   </linearGradient>
-                  <filter id="ddGl"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#ff3b5c" floodOpacity="0.4"/></filter>
+                  <filter id="ddGl"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#f87171" floodOpacity="0.4"/></filter>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,45,90,0.25)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                 <XAxis dataKey="label" stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
                 <YAxis stroke="#64748b" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} reversed />
                 <Tooltip contentStyle={redTooltip} />
-                <Area type="monotone" dataKey="drawdown" stroke="#ff3b5c" strokeWidth={2}
+                <Area type="monotone" dataKey="drawdown" stroke="#f87171" strokeWidth={2}
                   fill="url(#ddG)" filter="url(#ddGl)" />
               </AreaChart>
             </ResponsiveContainer>

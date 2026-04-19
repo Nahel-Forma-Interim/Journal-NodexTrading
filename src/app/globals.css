@@ -1,28 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050710;
-  --foreground: #e2e8f0;
-  --primary: #5B6EF5;
-  --primary-light: #7B8AF7;
-  --primary-dark: #3D4ED3;
-  --surface: rgba(17, 18, 39, 0.7);
-  --surface-solid: #111227;
-  --surface-light: rgba(26, 27, 58, 0.6);
-  --surface-lighter: rgba(35, 37, 80, 0.5);
-  --border: rgba(42, 45, 90, 0.5);
-  --accent-green: #00e676;
-  --accent-red: #ff3b5c;
-  --accent-yellow: #ffd600;
-  --accent-purple: #b388ff;
-  --accent-cyan: #00e5ff;
-  --text-muted: #64748b;
-  --glass-bg: rgba(12, 13, 30, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.07);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --neon-green: 0 0 12px rgba(0, 230, 118, 0.4);
-  --neon-red: 0 0 12px rgba(255, 59, 92, 0.4);
-  --neon-blue: 0 0 12px rgba(91, 110, 245, 0.4);
+  /* === NODEX MONOCHROME PALETTE === */
+  /* Deux couleurs : blanc pur + bleu nuit #031021. */
+  /* Tout le reste n'est que nuance d'opacité ou nuances très légères. */
+  --background: #031021;           /* fond — bleu nuit profond */
+  --foreground: #ffffff;           /* texte — blanc pur */
+
+  /* "Primary" = blanc (accent par contraste) */
+  --primary: #ffffff;
+  --primary-light: #ffffff;
+  --primary-dark: rgba(255, 255, 255, 0.8);
+
+  /* Surfaces = nuances du bleu nuit (navy un cran au-dessus du fond) */
+  --surface: rgba(10, 24, 48, 0.7);
+  --surface-solid: #0a1a33;
+  --surface-light: rgba(14, 28, 58, 0.6);
+  --surface-lighter: rgba(22, 40, 78, 0.5);
+
+  --border: rgba(255, 255, 255, 0.1);
+
+  /* P&L sémantique (gardés — info fonctionnelle indispensable, mais mats) */
+  --accent-green: #4ade80;
+  --accent-red: #f87171;
+  --accent-yellow: #fbbf24;
+  --accent-purple: #ffffff;         /* neutralisé en blanc */
+  --accent-cyan: #ffffff;           /* neutralisé en blanc */
+
+  --text-muted: rgba(255, 255, 255, 0.55);
+
+  --glass-bg: rgba(3, 16, 33, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+  /* Glows — uniquement blanc (et vert/rouge atténués pour P&L) */
+  --neon-white: 0 0 14px rgba(255, 255, 255, 0.3);
+  --neon-green: 0 0 10px rgba(74, 222, 128, 0.35);
+  --neon-red: 0 0 10px rgba(248, 113, 113, 0.35);
+  --neon-blue: 0 0 14px rgba(255, 255, 255, 0.3); /* alias pour compat */
 }
 
 @theme inline {
@@ -32,8 +47,8 @@
   --color-primary-light: var(--primary-light);
   --color-primary-dark: var(--primary-dark);
   --color-surface: var(--surface-solid);
-  --color-surface-light: rgba(26, 27, 58, 0.6);
-  --color-surface-lighter: rgba(35, 37, 80, 0.5);
+  --color-surface-light: var(--surface-light);
+  --color-surface-lighter: var(--surface-lighter);
   --color-border: var(--border);
   --color-accent-green: var(--accent-green);
   --color-accent-red: var(--accent-red);
@@ -47,15 +62,14 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(35, 37, 80, 0.5) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 body {
   background: var(--background);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(91, 110, 245, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(0, 230, 118, 0.04), transparent),
-    radial-gradient(ellipse 40% 30% at 0% 80%, rgba(179, 136, 255, 0.04), transparent);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(255, 255, 255, 0.04), transparent);
   color: var(--foreground);
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", Arial, sans-serif;
   min-height: 100vh;
@@ -64,101 +78,101 @@ body {
 /* ============ GLASSMORPHISM COMPONENTS ============ */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
 }
 
 .glass-card {
-  background: rgba(12, 14, 32, 0.55);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(10, 24, 50, 0.75);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 4px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .glass-card:hover {
-  border-color: rgba(91, 110, 245, 0.15);
+  border-color: rgba(255, 255, 255, 0.18);
   box-shadow:
-    0 4px 32px rgba(91, 110, 245, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 4px 32px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .glass-btn {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   transition: all 0.25s ease;
   cursor: pointer;
   color: var(--foreground);
 }
 .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 .glass-btn:active {
   transform: translateY(0);
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
 }
 
+/* "Primary" = boutons en blanc pur sur fond navy (contraste max) */
 .glass-btn-primary {
-  background: linear-gradient(135deg, rgba(91, 110, 245, 0.3), rgba(123, 138, 247, 0.2));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(91, 110, 245, 0.35);
+  background: #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 14px;
   transition: all 0.25s ease;
   cursor: pointer;
-  color: white;
+  color: var(--background);
+  font-weight: 600;
 }
 .glass-btn-primary:hover {
-  background: linear-gradient(135deg, rgba(91, 110, 245, 0.45), rgba(123, 138, 247, 0.3));
-  border-color: rgba(91, 110, 245, 0.55);
-  box-shadow: 0 0 20px rgba(91, 110, 245, 0.2), var(--neon-blue);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
 }
 
 .glass-input {
-  background: rgba(12, 14, 32, 0.7) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 14px !important;
   color: var(--foreground) !important;
   outline: none !important;
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 .glass-input:focus {
-  border-color: rgba(91, 110, 245, 0.45) !important;
-  box-shadow: 0 0 0 3px rgba(91, 110, 245, 0.1), var(--neon-blue) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
 }
 
-/* ============ NEON EFFECTS ============ */
-.neon-green { text-shadow: 0 0 10px rgba(0, 230, 118, 0.5), 0 0 30px rgba(0, 230, 118, 0.2); }
-.neon-red { text-shadow: 0 0 10px rgba(255, 59, 92, 0.5), 0 0 30px rgba(255, 59, 92, 0.2); }
-.neon-blue { text-shadow: 0 0 10px rgba(91, 110, 245, 0.5), 0 0 30px rgba(91, 110, 245, 0.2); }
-.neon-purple { text-shadow: 0 0 10px rgba(179, 136, 255, 0.5), 0 0 30px rgba(179, 136, 255, 0.2); }
+/* ============ NEON / GLOW EFFECTS ============ */
+.neon-green { text-shadow: 0 0 10px rgba(74, 222, 128, 0.45), 0 0 24px rgba(74, 222, 128, 0.15); }
+.neon-red { text-shadow: 0 0 10px rgba(248, 113, 113, 0.45), 0 0 24px rgba(248, 113, 113, 0.15); }
+.neon-blue { text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 24px rgba(255, 255, 255, 0.15); }
+.neon-purple { text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 24px rgba(255, 255, 255, 0.15); }
+.neon-white { text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 24px rgba(255, 255, 255, 0.15); }
 
 /* ============ GRADIENT ACCENTS ============ */
 .gradient-border {
-  border-image: linear-gradient(135deg, rgba(91, 110, 245, 0.3), rgba(0, 230, 118, 0.2)) 1;
+  border-image: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05)) 1;
 }
 
 /* ============ RECHARTS OVERRIDE ============ */
 .recharts-default-tooltip {
-  background: rgba(6, 8, 15, 0.95) !important;
+  background: rgba(3, 16, 33, 0.95) !important;
   backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(0, 230, 118, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 14px !important;
-  box-shadow: 0 0 20px rgba(0, 230, 118, 0.15) !important;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4) !important;
   padding: 12px 16px !important;
 }
 .recharts-tooltip-label {
@@ -167,11 +181,11 @@ body {
   margin-bottom: 6px !important;
 }
 .recharts-tooltip-item {
-  color: var(--accent-green) !important;
+  color: var(--foreground) !important;
   font-weight: 500 !important;
 }
 .recharts-cartesian-grid line {
-  stroke: rgba(42, 45, 90, 0.3) !important;
+  stroke: rgba(255, 255, 255, 0.08) !important;
 }
 
 /* ============ ANIMATIONS ============ */
@@ -180,8 +194,8 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 8px rgba(91, 110, 245, 0.2); }
-  50% { box-shadow: 0 0 24px rgba(91, 110, 245, 0.4); }
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.15); }
+  50% { box-shadow: 0 0 24px rgba(255, 255, 255, 0.3); }
 }
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
@@ -196,7 +210,7 @@ body {
 .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
 .animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 3s infinite;
 }
@@ -204,21 +218,21 @@ body {
 /* ============ SCROLLBAR ============ */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(91, 110, 245, 0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(91, 110, 245, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
 
 /* ============ INPUT GLOBAL ============ */
 input, textarea, select {
-  background: rgba(12, 14, 32, 0.7) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--foreground);
   outline: none;
   border-radius: 14px;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: rgba(91, 110, 245, 0.45);
-  box-shadow: 0 0 0 3px rgba(91, 110, 245, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
 }
 input[type="range"] {
   background: transparent !important;
