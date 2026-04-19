@@ -13,6 +13,8 @@ import {
   enableAutoBackup, disableAutoBackup, getAutoBackup, refreshAutoBackup,
 } from "@/lib/store";
 import { useAuth } from "@/lib/useAuth";
+import { useCloudSync } from "@/components/CloudSyncProvider";
+import { pushAll, pullAll, applySnapshotToLocal } from "@/lib/cloudSync";
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<UserSettings>(getSettings());
@@ -30,6 +32,45 @@ export default function SettingsPage() {
   const { user, loading: authLoading, configured: cloudConfigured, signInWithGoogle, signOut } = useAuth();
   const [authError, setAuthError] = useState<string | null>(null);
   const [authBusy, setAuthBusy] = useState(false);
+
+  // État de synchro cloud
+  const { status: syncStatus, lastError: syncError, lastSyncedAt } = useCloudSync();
+  const [manualBusy, setManualBusy] = useState<"push" | "pull" | null>(null);
+  const [manualMsg, setManualMsg] = useState<string | null>(null);
+
+  const handleForcePush = async () => {
+    if (!user) return;
+    setManualBusy("push");
+    setManualMsg(null);
+    try {
+      await pushAll(user.id);
+      setManualMsg("Envoi vers le cloud terminé.");
+    } catch (err) {
+      setManualMsg(err instanceof Error ? err.message : "Échec de l'envoi");
+    } finally {
+      setManualBusy(null);
+      setTimeout(() => setManualMsg(null), 3500);
+    }
+  };
+
+  const handleForcePull = async () => {
+    if (!user) return;
+    setManualBusy("pull");
+    setManualMsg(null);
+    try {
+      const snap = await pullAll(user.id);
+      applySnapshotToLocal(snap);
+      setManualMsg("Données rechargées depuis le cloud.");
+      setCurrentCapital(getCurrentCapital());
+      setStats(getStats());
+      setSettings(getSettings());
+    } catch (err) {
+      setManualMsg(err instanceof Error ? err.message : "Échec de la récupération");
+    } finally {
+      setManualBusy(null);
+      setTimeout(() => setManualMsg(null), 3500);
+    }
+  };
 
   const handleGoogleSignIn = async () => {
     setAuthError(null);
@@ -53,10 +94,16 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
-    setCurrentCapital(getCurrentCapital());
-    setStats(getStats());
-    setSettings(getSettings());
-    setAutoBackup(getAutoBackup());
+    const refresh = () => {
+      setCurrentCapital(getCurrentCapital());
+      setStats(getStats());
+      setSettings(getSettings());
+      setAutoBackup(getAutoBackup());
+    };
+    refresh();
+    // Re-sync l'UI quand le cloud pull redescend de nouvelles données
+    window.addEventListener("nodex-data-refreshed", refresh);
+    return () => window.removeEventListener("nodex-data-refreshed", refresh);
   }, []);
 
   const handleSave = () => {
@@ -356,9 +403,71 @@ export default function SettingsPage() {
                     Cloud ok
                   </span>
                 </div>
-                <p className="text-xs text-text-muted">
-                  Tes données seront bientôt synchronisées automatiquement sur le cloud — fini le code de transfert.
-                </p>
+                {/* État de synchro cloud */}
+                <div className="rounded-2xl border border-white/10 p-3 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 text-xs">
+                      {syncStatus === "initial-sync" && (
+                        <>
+                          <RefreshCw size={13} className="animate-spin" />
+                          <span className="text-text-muted">Synchronisation initiale...</span>
+                        </>
+                      )}
+                      {syncStatus === "syncing" && (
+                        <>
+                          <RefreshCw size={13} className="animate-spin" />
+                          <span className="text-text-muted">Synchronisation...</span>
+                        </>
+                      )}
+                      {syncStatus === "ok" && (
+                        <>
+                          <Check size={13} className="text-accent-green" />
+                          <span className="text-text-muted">
+                            Synchronisé{lastSyncedAt ? ` à ${lastSyncedAt.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}` : ""}
+                          </span>
+                        </>
+                      )}
+                      {syncStatus === "error" && (
+                        <>
+                          <AlertTriangle size={13} className="text-accent-red" />
+                          <span className="text-accent-red truncate" title={syncError ?? ""}>
+                            Erreur de synchro
+                          </span>
+                        </>
+                      )}
+                      {syncStatus === "idle" && (
+                        <span className="text-text-muted">En attente...</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleForcePush}
+                      disabled={manualBusy !== null}
+                      className="flex-1 py-2 glass-btn rounded-xl text-[11px] font-medium flex items-center justify-center gap-1.5 disabled:opacity-50"
+                      title="Envoyer toutes les données locales vers le cloud"
+                    >
+                      <Upload size={12} />
+                      {manualBusy === "push" ? "Envoi..." : "Envoyer"}
+                    </button>
+                    <button
+                      onClick={handleForcePull}
+                      disabled={manualBusy !== null}
+                      className="flex-1 py-2 glass-btn rounded-xl text-[11px] font-medium flex items-center justify-center gap-1.5 disabled:opacity-50"
+                      title="Récupérer toutes les données depuis le cloud (écrase le local)"
+                    >
+                      <Download size={12} />
+                      {manualBusy === "pull" ? "Récup..." : "Récupérer"}
+                    </button>
+                  </div>
+                  {manualMsg && (
+                    <p className="text-[11px] text-text-muted text-center">{manualMsg}</p>
+                  )}
+                  {syncError && syncStatus === "error" && (
+                    <p className="text-[10px] text-accent-red/80 break-all">{syncError}</p>
+                  )}
+                </div>
+
                 <button
                   onClick={handleSignOut}
                   disabled={authBusy}

@@ -57,6 +57,25 @@ function setItem<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+/**
+ * Émet un event global à chaque mutation du store.
+ * Le CloudSyncProvider l'écoute pour pousser vers Supabase.
+ * Payload : { collection: "trade"|"plan"|"note"|"settings", op: "upsert"|"delete", item?, id? }
+ */
+export type SyncPayload =
+  | { collection: "trade"; op: "upsert"; item: Trade }
+  | { collection: "trade"; op: "delete"; id: string }
+  | { collection: "plan"; op: "upsert"; item: TradingPlan }
+  | { collection: "plan"; op: "delete"; id: string }
+  | { collection: "note"; op: "upsert"; item: Note }
+  | { collection: "note"; op: "delete"; id: string }
+  | { collection: "settings"; op: "upsert"; item: UserSettings };
+
+function notifyChange(payload: SyncPayload): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent<SyncPayload>("nodex-data-changed", { detail: payload }));
+}
+
 // ============ USER SETTINGS ============
 const defaultSettings: UserSettings = {
   startingCapital: 1000,
@@ -71,6 +90,7 @@ export function getSettings(): UserSettings {
 
 export function saveSettings(settings: UserSettings): void {
   setItem("nahel_settings", settings);
+  notifyChange({ collection: "settings", op: "upsert", item: settings });
 }
 
 // ============ CURRENT CAPITAL ============
@@ -143,6 +163,7 @@ export function saveTrade(trade: Trade): void {
   if (idx >= 0) trades[idx] = trade;
   else trades.unshift(trade);
   setItem("neldia_trades", trades);
+  notifyChange({ collection: "trade", op: "upsert", item: trade });
   // Auto-backup: regenerate backup code after every change
   const settings = getSettings();
   if (settings.autoBackupEnabled) {
@@ -153,6 +174,7 @@ export function saveTrade(trade: Trade): void {
 export function deleteTrade(id: string): void {
   const trades = getTrades().filter((t) => t.id !== id);
   setItem("neldia_trades", trades);
+  notifyChange({ collection: "trade", op: "delete", id });
   // Auto-backup
   const settings = getSettings();
   if (settings.autoBackupEnabled) {
@@ -171,11 +193,13 @@ export function savePlan(plan: TradingPlan): void {
   if (idx >= 0) plans[idx] = plan;
   else plans.unshift(plan);
   setItem("neldia_plans", plans);
+  notifyChange({ collection: "plan", op: "upsert", item: plan });
 }
 
 export function deletePlan(id: string): void {
   const plans = getPlans().filter((p) => p.id !== id);
   setItem("neldia_plans", plans);
+  notifyChange({ collection: "plan", op: "delete", id });
 }
 
 // ============ NOTES ============
@@ -189,11 +213,13 @@ export function saveNote(note: Note): void {
   if (idx >= 0) notes[idx] = note;
   else notes.unshift(note);
   setItem("neldia_notes", notes);
+  notifyChange({ collection: "note", op: "upsert", item: note });
 }
 
 export function deleteNote(id: string): void {
   const notes = getNotes().filter((n) => n.id !== id);
   setItem("neldia_notes", notes);
+  notifyChange({ collection: "note", op: "delete", id });
 }
 
 // ============ STATS ============
