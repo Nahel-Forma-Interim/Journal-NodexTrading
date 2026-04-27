@@ -30,7 +30,7 @@ const navItems = [
   { label: "ANALYSE", items: [] },
   { href: "/stats", label: "Statistiques", icon: BarChart3 },
   { href: "/simulator", label: "Simulateur", icon: LineChart },
-  { href: "/neldia", label: "Nahel IA", icon: Bot },
+  { href: "/neldia", label: "Nodex IA", icon: Bot },
   { href: "/notes", label: "Notes", icon: StickyNote },
   { href: "/plans", label: "Plans", icon: ClipboardList },
   { label: "COMPTE", items: [] },
@@ -74,21 +74,26 @@ export default function Sidebar() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setMobileOpen(false)}
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                className="fixed inset-0 bg-black/70 backdrop-blur-md z-40"
               />
               <motion.aside
                 initial={{ x: -300 }}
                 animate={{ x: 0 }}
                 exit={{ x: -300 }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="fixed left-0 top-0 h-screen w-72 glass z-50 flex flex-col"
-                style={{ background: "rgba(3, 16, 33, 0.92)", backdropFilter: "blur(24px)" }}
+                className="fixed left-0 top-0 h-screen w-72 z-50 flex flex-col"
+                style={{
+                  background: "rgba(6, 6, 18, 0.95)",
+                  backdropFilter: "blur(24px) saturate(150%)",
+                  borderRight: "1px solid rgba(111, 168, 255, 0.15)",
+                }}
               >
-                <div className="flex items-center gap-3 px-5 py-5 border-b border-white/5">
-                  <img src="/logo-nodex.png" alt="Nodex Trading" className="w-10 h-10 rounded-xl" />
-                  <span className="text-lg font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
-                    Nodex Trading
+                <div className="flex items-center gap-3 px-5 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <img src="/logo-nodex.png" alt="Nodex Trading" className="w-10 h-10 nodex-squircle" style={{ boxShadow: "0 0 14px rgba(111, 168, 255, 0.3)" }} />
+                  <span className="text-lg font-bold text-gradient-accent">
+                    Nodex
                   </span>
+                  <span className="text-xs font-mono text-muted ml-1">V6.1</span>
                   <button onClick={() => setMobileOpen(false)} className="ml-auto glass-btn p-2 rounded-xl">
                     <X size={18} />
                   </button>
@@ -109,26 +114,27 @@ export default function Sidebar() {
   return (
     <motion.aside
       animate={{ width: collapsed ? 72 : 260 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
       className="fixed left-0 top-0 h-screen flex flex-col z-40"
       style={{
-        background: "rgba(3, 16, 33, 0.85)",
+        background: "rgba(6, 6, 18, 0.85)",
         backdropFilter: "blur(24px) saturate(150%)",
-        borderRight: "1px solid rgba(255,255,255,0.05)",
+        borderRight: "1px solid rgba(111, 168, 255, 0.10)",
       }}
     >
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-white/5">
-        <img src="/logo-nodex.png" alt="Nodex Trading" className="w-10 h-10 rounded-xl" />
+      <div className="flex items-center gap-3 px-4 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+        <img src="/logo-nodex.png" alt="Nodex Trading" className="w-10 h-10 nodex-squircle" style={{ boxShadow: "0 0 14px rgba(111, 168, 255, 0.3)" }} />
         <AnimatePresence>
           {!collapsed && (
-            <motion.span
+            <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
-              className="text-lg font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent whitespace-nowrap"
+              className="flex items-baseline gap-1.5 whitespace-nowrap"
             >
-              Nodex Trading
-            </motion.span>
+              <span className="text-lg font-bold text-gradient-accent">Nodex</span>
+              <span className="text-xs font-mono text-muted">V6.1</span>
+            </motion.div>
           )}
         </AnimatePresence>
         <button
@@ -170,19 +176,21 @@ export default function Sidebar() {
                   ? "glass-btn-primary"
                   : "text-text-muted hover:text-foreground"
                 }`}
-              style={isActive ? {} : undefined}
               onMouseEnter={(e) => {
                 if (!isActive) {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                  e.currentTarget.style.background = "rgba(111, 168, 255, 0.08)";
+                  e.currentTarget.style.borderLeft = "2px solid rgba(111, 168, 255, 0.4)";
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isActive) {
                   e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.borderLeft = "2px solid transparent";
                 }
               }}
+              style={{ borderLeft: "2px solid transparent" }}
             >
-              <Icon size={19} className={isActive ? "" : "group-hover:text-white"} style={isActive ? { color: "var(--background)" } : undefined} />
+              <Icon size={19} style={isActive ? { color: "#000" } : undefined} />
               <AnimatePresence>
                 {!collapsed && (
                   <motion.span
@@ -225,7 +233,7 @@ function renderNav(items: typeof navItems, pathname: string) {
         className={`flex items-center gap-3 px-3 py-3 rounded-2xl mb-1 transition-all duration-200
           ${isActive ? "glass-btn-primary" : "text-text-muted active:bg-white/5"}`}
       >
-        <Icon size={20} className={isActive ? "" : ""} style={isActive ? { color: "var(--background)" } : undefined} />
+        <Icon size={20} style={isActive ? { color: "#000" } : undefined} />
         <span className="text-sm font-medium">{item.label}</span>
       </Link>
     );
@@ -234,16 +242,22 @@ function renderNav(items: typeof navItems, pathname: string) {
 
 function renderUser(collapsed?: boolean) {
   return (
-    <div className="border-t border-white/5 p-4">
+    <div className="border-t p-4" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center font-bold text-sm shadow-lg"
-          style={{ color: "var(--background)", boxShadow: "0 0 14px rgba(255, 255, 255, 0.25)" }}>
+        <div
+          className="w-9 h-9 nodex-squircle flex items-center justify-center font-bold text-sm shadow-lg"
+          style={{
+            background: "var(--accent)",
+            color: "#000",
+            boxShadow: "0 0 14px rgba(111, 168, 255, 0.4)",
+          }}
+        >
           N
         </div>
         {collapsed !== true && (
           <div>
             <p className="text-sm font-medium">Nahel</p>
-            <p className="text-xs text-text-muted">Trader Spot</p>
+            <p className="text-xs text-text-muted">Trader Spot · V6.1</p>
           </div>
         )}
       </div>

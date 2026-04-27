@@ -311,8 +311,8 @@ export default function NahelIAPage() {
                 )}
               </div>
               {msg.role === "user" && (
-                <div className="w-8 h-8 rounded-xl bg-surface-lighter flex items-center justify-center shrink-0">
-                  <User size={16} className="text-text-muted" />
+                <div className="w-8 h-8 rounded-xl bg-surface-lighter border border-border flex items-center justify-center shrink-0">
+                  <User size={16} className="text-foreground" />
                 </div>
               )}
             </motion.div>
@@ -325,11 +325,11 @@ export default function NahelIAPage() {
             animate={{ opacity: 1 }}
             className="flex gap-3"
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shrink-0">
-              <Bot size={16} className="text-white" />
+            <div className="w-8 h-8 rounded-xl bg-accent-green flex items-center justify-center shrink-0 shadow-[0_0_14px_rgba(74,222,128,0.3)]">
+              <Bot size={16} className="text-background" />
             </div>
             <div className="bg-surface-light border border-border rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-2 text-sm text-text-muted">
-              <Loader2 size={16} className="animate-spin text-primary" />
+              <Loader2 size={16} className="animate-spin text-accent-green" />
               Nahel IA réfléchit...
             </div>
           </motion.div>
@@ -394,7 +394,7 @@ export default function NahelIAPage() {
         <button
           onClick={sendMessage}
           disabled={loading || (!input.trim() && !image)}
-          className="p-3 rounded-xl bg-primary hover:bg-primary-dark text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-3 rounded-xl bg-primary hover:bg-primary-dark text-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Send size={20} />
         </button>

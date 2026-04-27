@@ -51,9 +51,9 @@ export default function BottomNav() {
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
               className="fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl p-5 pb-8"
               style={{
-                background: "rgba(8, 9, 20, 0.97)",
-                backdropFilter: "blur(24px)",
-                borderTop: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(6, 6, 18, 0.97)",
+                backdropFilter: "blur(24px) saturate(160%)",
+                borderTop: "1px solid rgba(111, 168, 255, 0.18)",
               }}
             >
               <div className="flex items-center justify-between mb-5">
@@ -94,9 +94,9 @@ export default function BottomNav() {
       <div
         className="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around px-2"
         style={{
-          background: "rgba(3, 16, 33, 0.92)",
+          background: "rgba(6, 6, 18, 0.92)",
           backdropFilter: "blur(24px) saturate(160%)",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid rgba(111, 168, 255, 0.12)",
           paddingBottom: "env(safe-area-inset-bottom, 12px)",
           paddingTop: "10px",
         }}

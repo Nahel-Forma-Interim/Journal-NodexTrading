@@ -22,25 +22,25 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
           transition={{ duration: 0.7, ease: "easeInOut" }}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background overflow-hidden"
         >
-          {/* Background animated gradient circles */}
+          {/* Background animated gradient circles V2 (bleu) */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
               animate={{
                 scale: [1, 1.3, 1],
-                opacity: [0.1, 0.2, 0.1],
+                opacity: [0.15, 0.3, 0.15],
               }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%)" }}
+              style={{ background: "radial-gradient(circle, rgba(111, 168, 255, 0.25) 0%, transparent 70%)" }}
             />
             <motion.div
               animate={{
                 scale: [1.2, 1, 1.2],
-                opacity: [0.05, 0.15, 0.05],
+                opacity: [0.08, 0.18, 0.08],
               }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full"
-              style={{ background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)" }}
+              style={{ background: "radial-gradient(circle, rgba(245, 208, 97, 0.10) 0%, transparent 70%)" }}
             />
           </div>
 
@@ -75,13 +75,13 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
             <motion.img
               src="/logo-nodex.png"
               alt="Nodex Trading"
-              className="w-28 h-28 rounded-3xl"
+              className="w-28 h-28 nodex-squircle"
               animate={phase >= 1 ? {
                 y: [0, -8, 0],
                 filter: [
-                  "drop-shadow(0 0 24px rgba(255,255,255,0.25))",
-                  "drop-shadow(0 0 48px rgba(255,255,255,0.5))",
-                  "drop-shadow(0 0 24px rgba(255,255,255,0.25))",
+                  "drop-shadow(0 0 24px rgba(111, 168, 255, 0.4))",
+                  "drop-shadow(0 0 48px rgba(111, 168, 255, 0.7))",
+                  "drop-shadow(0 0 24px rgba(111, 168, 255, 0.4))",
                 ],
               } : {}}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -93,8 +93,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: phase >= 1 ? 1 : 0, y: phase >= 1 ? 0 : 30 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="relative z-10 mt-8 text-5xl font-bold text-white"
-            style={{ textShadow: "0 0 24px rgba(255,255,255,0.35)" }}
+            className="relative z-10 mt-8 text-5xl font-bold text-gradient-accent"
           >
             Nodex Trading
           </motion.h1>
@@ -106,7 +105,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
             transition={{ duration: 0.5 }}
             className="relative z-10 mt-3 text-text-muted text-lg tracking-wide"
           >
-            Trading Spot Crypto
+            Journal V6.1 · Simplicité Radicale
           </motion.p>
 
           {/* Loading bar */}
@@ -120,7 +119,8 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
               initial={{ width: "0%" }}
               animate={{ width: phase >= 2 ? "100%" : "0%" }}
               transition={{ duration: 1.2, ease: "easeInOut" }}
-              className="h-full rounded-full bg-gradient-to-r from-primary to-primary-light"
+              className="h-full rounded-full"
+              style={{ background: "linear-gradient(90deg, var(--accent), var(--gold))" }}
             />
           </motion.div>
 
