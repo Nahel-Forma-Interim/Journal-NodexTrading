@@ -35,7 +35,7 @@ const navItems = [
   { href: "/notes", label: "Notes", icon: StickyNote },
   { href: "/plans", label: "Plans", icon: ClipboardList },
   { label: "OUTILS", items: [] },
-  { href: "/import-backtest", label: "Import backtests", icon: Download },
+  { href: "/import-backtest", label: "Importer trades", icon: Download },
   { label: "COMPTE", items: [] },
   { href: "/settings", label: "Paramètres", icon: Settings },
 ];
