@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { saveTrade, getTrades, type Trade } from "@/lib/store";
+import { saveTrade, getTrades, getTradeOutcome, outcomeFromPrices, type Trade } from "@/lib/store";
 import { motion, AnimatePresence } from "framer-motion";
 
 type ParsedTrade = {
@@ -176,26 +176,33 @@ export default function ImportTradesPage() {
 
   const validFormTrades = formTrades.filter((t) => t.investi > 0 && t.entry > 0 && t.exit > 0);
 
-  // Stats existantes journal
+  // Stats existantes journal — classification par PRIX (BE = entry == exit, exclu du WR)
   const existingTrades = typeof window !== "undefined" ? getTrades() : [];
   const existingPnl = existingTrades.reduce((s, t) => s + t.pnl, 0);
-  const existingWR = existingTrades.length > 0
-    ? ((existingTrades.filter((t) => t.pnl > 0).length / existingTrades.length) * 100).toFixed(1)
+  const existingWins = existingTrades.filter((t) => getTradeOutcome(t) === "win").length;
+  const existingLosses = existingTrades.filter((t) => getTradeOutcome(t) === "loss").length;
+  const existingDecisive = existingWins + existingLosses;
+  const existingWR = existingDecisive > 0
+    ? ((existingWins / existingDecisive) * 100).toFixed(1)
     : "0";
 
-  // Stats du batch en cours
+  // Stats du batch en cours (import = type "buy" par défaut)
   const tradesToImport = tab === "paste" ? parsedTrades : validFormTrades;
-  const batchWins = tradesToImport.filter((t) => t.pnl > 0).length;
+  const batchWins = tradesToImport.filter((t) => outcomeFromPrices(t.entry, t.exit, "buy") === "win").length;
+  const batchLosses = tradesToImport.filter((t) => outcomeFromPrices(t.entry, t.exit, "buy") === "loss").length;
+  const batchDecisive = batchWins + batchLosses;
   const batchPnl = tradesToImport.reduce((s, t) => s + t.pnl, 0);
-  const batchWR = tradesToImport.length > 0
-    ? ((batchWins / tradesToImport.length) * 100).toFixed(1)
+  const batchWR = batchDecisive > 0
+    ? ((batchWins / batchDecisive) * 100).toFixed(1)
     : "0";
 
   // Stats projetées (existant + batch)
   const projectedTotal = existingTrades.length + tradesToImport.length;
   const projectedPnl = existingPnl + batchPnl;
-  const projectedWR = projectedTotal > 0
-    ? (((existingTrades.filter((t) => t.pnl > 0).length + batchWins) / projectedTotal) * 100).toFixed(1)
+  const projectedWins = existingWins + batchWins;
+  const projectedDecisive = existingDecisive + batchDecisive;
+  const projectedWR = projectedDecisive > 0
+    ? ((projectedWins / projectedDecisive) * 100).toFixed(1)
     : "0";
 
   return (

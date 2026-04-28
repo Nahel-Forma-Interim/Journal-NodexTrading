@@ -40,8 +40,9 @@ export default function StatsPage() {
 
   const winLossData = [
     { name: "Gains", value: stats.wins, color: "#4ade80" },
+    { name: "BE", value: stats.breakevens, color: "#94a3b8" },
     { name: "Pertes", value: stats.losses, color: "#f87171" },
-  ];
+  ].filter((d) => d.value > 0);
 
   const dailyMap = new Map<string, number>();
   trades.forEach((t) => dailyMap.set(t.date, (dailyMap.get(t.date) || 0) + t.pnl));
@@ -109,10 +110,11 @@ export default function StatsPage() {
           </motion.div>
 
           {/* Top stats */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4 mb-8">
             {[
               { icon: BarChart3, label: "Trades", value: stats.totalTrades, color: "text-primary neon-blue" },
               { icon: Target, label: "Win Rate", value: `${stats.winRate.toFixed(1)}%`, color: "text-accent-green neon-green" },
+              { icon: BarChart3, label: "BE", value: stats.breakevens, color: "text-text-muted" },
               { icon: stats.totalPnl >= 0 ? TrendingUp : TrendingDown, label: "PnL Total",
                 value: `${stats.totalPnl >= 0 ? "+" : ""}${stats.totalPnl.toFixed(2)} $`,
                 color: stats.totalPnl >= 0 ? "text-accent-green neon-green" : "text-accent-red neon-red" },
@@ -168,7 +170,8 @@ export default function StatsPage() {
                   <Pie data={winLossData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} dataKey="value"
                     stroke="none" label={{ fontSize: 12, fill: "#e2e8f0" }}>
                     {winLossData.map((entry, index) => (
-                      <Cell key={index} fill={entry.color} filter={index === 0 ? "url(#pgG)" : "url(#pgR)"} />
+                      <Cell key={index} fill={entry.color}
+                        filter={entry.name === "Gains" ? "url(#pgG)" : entry.name === "Pertes" ? "url(#pgR)" : undefined} />
                     ))}
                   </Pie>
                   <Tooltip contentStyle={neonTooltip} />

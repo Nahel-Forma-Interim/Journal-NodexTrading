@@ -116,6 +116,35 @@ export function getCapitalBeforeTrade(tradeIndex: number): number {
   return Math.round(capital * 100) / 100;
 }
 
+// ============ TRADE OUTCOME (win / loss / breakeven) ============
+export type TradeOutcome = "win" | "loss" | "breakeven";
+
+/**
+ * Classifie un trade en win / loss / breakeven en se basant
+ * SUR LES PRIX (entry vs exit), pas sur le PnL net.
+ *
+ * Un trade BE (entry == exit) reste BE même si les frais le rendent négatif.
+ * Exemple : entry 0,2311 / exit 0,2311 / -5 € de frais → BREAKEVEN.
+ *
+ * Tolérance epsilon (1e-9) pour gérer la précision flottante JavaScript.
+ */
+export function outcomeFromPrices(
+  entryPrice: number,
+  exitPrice: number,
+  type: "buy" | "sell" = "buy"
+): TradeOutcome {
+  const eps = 1e-9;
+  if (exitPrice <= 0 || entryPrice <= 0) return "breakeven";
+  const diff = exitPrice - entryPrice;
+  if (Math.abs(diff) < eps) return "breakeven";
+  if (type === "buy") return diff > 0 ? "win" : "loss";
+  return diff < 0 ? "win" : "loss"; // sell
+}
+
+export function getTradeOutcome(trade: Trade): TradeOutcome {
+  return outcomeFromPrices(trade.entryPrice, trade.exitPrice, trade.type);
+}
+
 // ============ TRADE PNL CALCULATION ============
 export function calculateTradePnl(
   type: "buy" | "sell",
@@ -227,13 +256,24 @@ export function getStats() {
   const trades = getTrades();
   const settings = getSettings();
   const totalTrades = trades.length;
-  const wins = trades.filter((t) => t.pnl > 0).length;
-  const losses = trades.filter((t) => t.pnl < 0).length;
-  const winRate = totalTrades > 0 ? (wins / totalTrades) * 100 : 0;
+
+  // Classification basée sur entryPrice vs exitPrice (PRIX, pas PnL).
+  // Un BE (entry == exit) n'est NI un win NI un loss, même si frais > 0.
+  const winTrades = trades.filter((t) => getTradeOutcome(t) === "win");
+  const lossTrades = trades.filter((t) => getTradeOutcome(t) === "loss");
+  const beTrades = trades.filter((t) => getTradeOutcome(t) === "breakeven");
+  const wins = winTrades.length;
+  const losses = lossTrades.length;
+  const breakevens = beTrades.length;
+
+  // Win rate = wins / (wins + losses), BE exclus du dénominateur.
+  const decisiveTrades = wins + losses;
+  const winRate = decisiveTrades > 0 ? (wins / decisiveTrades) * 100 : 0;
+
   const totalPnl = Math.round(trades.reduce((sum, t) => sum + t.pnl, 0) * 100) / 100;
   const totalFees = Math.round(trades.reduce((sum, t) => sum + t.fees, 0) * 100) / 100;
-  const avgWin = wins > 0 ? trades.filter((t) => t.pnl > 0).reduce((s, t) => s + t.pnl, 0) / wins : 0;
-  const avgLoss = losses > 0 ? trades.filter((t) => t.pnl < 0).reduce((s, t) => s + t.pnl, 0) / losses : 0;
+  const avgWin = wins > 0 ? winTrades.reduce((s, t) => s + t.pnl, 0) / wins : 0;
+  const avgLoss = losses > 0 ? lossTrades.reduce((s, t) => s + t.pnl, 0) / losses : 0;
   const profitFactor = avgLoss !== 0 ? Math.abs(avgWin / avgLoss) : 0;
   const bestTrade = trades.length > 0 ? Math.max(...trades.map((t) => t.pnl)) : 0;
   const worstTrade = trades.length > 0 ? Math.min(...trades.map((t) => t.pnl)) : 0;
@@ -272,6 +312,7 @@ export function getStats() {
     totalTrades,
     wins,
     losses,
+    breakevens,
     winRate,
     totalPnl,
     totalFees,
